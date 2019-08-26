@@ -1,3 +1,5 @@
+
+
 #include <avr/io.h>
 #include "glcd/glcd.h"
 #include <avr/interrupt.h>
@@ -6,64 +8,85 @@
 #include "glcd/fonts/Liberation_Sans15x21_Numbers.h"
 #include "glcd/fonts/font5x7.h"
 #include <avr/pgmspace.h>
-
-	
+#define F_CPU 16000000UL  // 1 MHz
+#define	LINKS	!(PIND &(1<<PD6))
+#define RECHTS	!(PIND &(1<<PD5))
 int main(void)
-{	
+{
+	char Richtung;
+	char hoehe;
 	
-	/* Backlight pin PL3, set as output, set high for 100% output */
-	DDRB |= (1<<PB2);
-	//PORTB |= (1<<PB2);
+	DDRB|=(1<<PB2);
+	DDRC|=(1<<PC3);
+	PORTC&=~(1<<PC3);
 
-    sei(); //test
 	
+	DDRD&=~((1<<PD5)|(1<<PD6)|(1<<PD2));
+	PORTD|=((1<<PD5)|(1<<PD6)|(1<<PD2));
+	Richtung=35;
+	hoehe=0;
+	
+	sei();
+
 	glcd_init();
-
 	glcd_clear();
 	glcd_write();
-	
-	// Display
-	glcd_tiny_set_font(Font5x7,5,7,32,127);
+	glcd_tiny_set_font(Font5x7 ,5,7,32,127);
 	glcd_clear_buffer();
-	glcd_tiny_draw_string(3, 2, "Ich Bin Lucas");
-	glcd_write();
-	
-	DDRD &= ~(1<<PD5);
-	PORTD |= (1<<PD5);
-	
-	DDRD &= ~(1<<PD2);
-	PORTD |= (1<<PD2);
-	
-	DDRD &= ~(1<<PD6);
-	PORTD |= (1<<PD6);
-	
-	DDRC |= (1<<PC3);
-	PORTC &= ~(1<<PC3);
-	
-	DDRB |= (1<<PB2);
-	PORTB &= ~(1<<PB2);
 
-	while(1)
-	{ 
+	glcd_draw_rect(00,00,84,47,1);
+	glcd_draw_rect(48,42,15,3,1);
+	
+	glcd_write();	
 		
-		if(!(PIND &(1<<PD5)))
+		
+		while(1)
+		{
+			if(LINKS)
 			{
-				PORTB |= (1<<PB2);	
+				glcd_clear();
+				
+				Richtung--;
+				glcd_draw_rect(Richtung,42,15,3,1);
+				glcd_write();
+				
+				if(Richtung <= 1)
+				{
+					Richtung = 2;
+				}
 			}
-		if(!(PIND &(1<<PD6)))
+			if(RECHTS)
 			{
-				PORTB &= ~(1<<PB2);
+				glcd_clear();
+				Richtung++;
+				glcd_draw_rect(Richtung,42,15,3,1);
+				glcd_write();
+				if(Richtung >= 68)
+				{
+					Richtung = 67;
+				}
 			}
+			/*if(!(PIND&(1<<PD2)))
+			{												//später hinzufügen (Höhe)
+				while(!(PIND&(1<<PD2)))
+				glcd_clear();
+				hoehe--;
+				glcd_draw_rect(Richtung,hoehe,15,3,1);
+				glcd_write();
+				if(hoehe<30)
+				{
+					hoehe=29;
+				}
+				
+				
+			}*/
+				
 			
-		if(PIND &(1<<PD2))
-			{
-				PORTC |= (1<<PC3);	
-			}else
-			{
-				PORTC &= ~(1<<PC3);
-			}
-		
-	} //end while
-
-	return 0;
-}//end of main
+				
+			glcd_draw_rect(00,00,84,47,1);
+			glcd_write();
+			
+		}
+				
+	
+}

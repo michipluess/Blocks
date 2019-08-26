@@ -913,18 +913,18 @@
  986               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 text.c
-C:\Users\POLL\AppData\Local\Temp/cceu0PBd.s:2      *ABS*:0000003f __SREG__
-C:\Users\POLL\AppData\Local\Temp/cceu0PBd.s:3      *ABS*:0000003e __SP_H__
-C:\Users\POLL\AppData\Local\Temp/cceu0PBd.s:4      *ABS*:0000003d __SP_L__
-C:\Users\POLL\AppData\Local\Temp/cceu0PBd.s:5      *ABS*:00000034 __CCP__
-C:\Users\POLL\AppData\Local\Temp/cceu0PBd.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\POLL\AppData\Local\Temp/cceu0PBd.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\POLL\AppData\Local\Temp/cceu0PBd.s:18     .text:00000000 glcd_set_font
+C:\Users\PLUM\AppData\Local\Temp/ccmPcl6f.s:2      *ABS*:0000003f __SREG__
+C:\Users\PLUM\AppData\Local\Temp/ccmPcl6f.s:3      *ABS*:0000003e __SP_H__
+C:\Users\PLUM\AppData\Local\Temp/ccmPcl6f.s:4      *ABS*:0000003d __SP_L__
+C:\Users\PLUM\AppData\Local\Temp/ccmPcl6f.s:5      *ABS*:00000034 __CCP__
+C:\Users\PLUM\AppData\Local\Temp/ccmPcl6f.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\PLUM\AppData\Local\Temp/ccmPcl6f.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\PLUM\AppData\Local\Temp/ccmPcl6f.s:18     .text:00000000 glcd_set_font
                             *COM*:00000007 font_current
-C:\Users\POLL\AppData\Local\Temp/cceu0PBd.s:51     .text:00000024 glcd_font
-C:\Users\POLL\AppData\Local\Temp/cceu0PBd.s:87     .text:0000004a glcd_draw_char_xy
-C:\Users\POLL\AppData\Local\Temp/cceu0PBd.s:793    .text:00000416 glcd_draw_string_xy_P
-C:\Users\POLL\AppData\Local\Temp/cceu0PBd.s:868    .text:0000045c glcd_draw_string_xy
+C:\Users\PLUM\AppData\Local\Temp/ccmPcl6f.s:51     .text:00000024 glcd_font
+C:\Users\PLUM\AppData\Local\Temp/ccmPcl6f.s:87     .text:0000004a glcd_draw_char_xy
+C:\Users\PLUM\AppData\Local\Temp/ccmPcl6f.s:793    .text:00000416 glcd_draw_string_xy_P
+C:\Users\PLUM\AppData\Local\Temp/ccmPcl6f.s:868    .text:0000045c glcd_draw_string_xy
 
 UNDEFINED SYMBOLS
 glcd_set_pixel
