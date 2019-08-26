@@ -15,7 +15,7 @@ int main(void)
 	DDRB |= (1<<PB2);
 	//PORTB |= (1<<PB2);
 
-    sei();
+    sei(); //test
 	
 	glcd_init();
 
