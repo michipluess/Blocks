@@ -3708,26 +3708,26 @@
  3814               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 unit_tests.c
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:2      *ABS*:0000003f __SREG__
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:3      *ABS*:0000003e __SP_H__
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:4      *ABS*:0000003d __SP_L__
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:5      *ABS*:00000034 __CCP__
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:18     .text:00000000 glcd_test_bitmap_128x64
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:1299   .progmem.data:00000000 bmp_oslogo
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:1293   .bss:00000000 unit_test_return
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:42     .text:0000001a glcd_test_scrolling_graph
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:149    .text:000000b2 glcd_test_hello_world
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:2690   .progmem.data:00000568 Font5x7
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:197    .text:000000e8 glcd_test_rectangles
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:567    .text:00000280 glcd_test_tiny_text
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:716    .text:00000324 glcd_test_text_up_down
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:3173   .progmem.data:00000748 Liberation_Sans15x21_Numbers
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:874    .text:000003c0 glcd_test_glcdutils
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:2327   .progmem.data:00000400 font_Earthbound_12x19_48to57
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:997    .text:00000496 glcd_test_counter_and_graph
-C:\Users\PLUM\AppData\Local\Temp/cceNSd4z.s:1140   .text:00000594 glcd_test_circles
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:2      *ABS*:0000003f __SREG__
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:3      *ABS*:0000003e __SP_H__
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:4      *ABS*:0000003d __SP_L__
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:5      *ABS*:00000034 __CCP__
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:18     .text:00000000 glcd_test_bitmap_128x64
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:1299   .progmem.data:00000000 bmp_oslogo
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:1293   .bss:00000000 unit_test_return
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:42     .text:0000001a glcd_test_scrolling_graph
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:149    .text:000000b2 glcd_test_hello_world
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:2690   .progmem.data:00000568 Font5x7
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:197    .text:000000e8 glcd_test_rectangles
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:567    .text:00000280 glcd_test_tiny_text
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:716    .text:00000324 glcd_test_text_up_down
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:3173   .progmem.data:00000748 Liberation_Sans15x21_Numbers
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:874    .text:000003c0 glcd_test_glcdutils
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:2327   .progmem.data:00000400 font_Earthbound_12x19_48to57
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:997    .text:00000496 glcd_test_counter_and_graph
+C:\Users\PLUM\AppData\Local\Temp/cc3RT01b.s:1140   .text:00000594 glcd_test_circles
 
 UNDEFINED SYMBOLS
 glcd_draw_bitmap

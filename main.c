@@ -14,16 +14,41 @@
 #define RECHTS	!(PIND &(1<<PD5))
 #define UP 1	
 #define DOWN 0
-#define LEFT 1
-#define RIGHT 0
+#define LEFT 0
+#define RIGHT 1
+
+unsigned char ms10=0;
+unsigned char ms100=0;
+int Sekunde=0;
+int Minute=0;
+int Milisec=0;
+
 
 ISR (TIMER1_COMPA_vect)
 {
+	ms10++;
 	
+	if(ms10==10) //bei 100 ms
+	{	
+		ms100++;
+		Milisec++;
+		ms10=0;
+	}
+	if(ms100==10) //Bei 1 sekunde
+	{
+		Sekunde++;
+		Milisec=0;
+		ms100=0;
+	}
+	if(Sekunde==60)
+	{
+		Sekunde=0;
+		Minute++;
+	}
 }
 
 int main(void)
-{
+{/*
 	char Balken_x;
 	char Balken_y;
 	char Balkenlaenge;
@@ -32,6 +57,18 @@ int main(void)
 	char ball_x;
 	char ball_vert;
 	char ball_horiz;
+	char sektor_links;
+	char sektor_rechts;
+	*/
+	
+	
+	
+	char buffer[10];
+	char buffer1[10];
+	char buffer2[10];
+	
+	
+	
 	
 	DDRB|=(1<<PB2);
 	DDRC|=(1<<PC3);
@@ -40,9 +77,10 @@ int main(void)
 	
 	DDRD&=~((1<<PD5)|(1<<PD6)|(1<<PD2));
 	PORTD|=((1<<PD5)|(1<<PD6)|(1<<PD2));
+//====================================================================
 	
 	//Timer 1 Configuration
-	OCR1A = 0x009C;	//OCR1A = 0x3D08;==1sec
+	OCR1A = 1270;	//OCR1A = 0x3D08;==1sec
 	
     TCCR1B |= (1 << WGM12);
     // Mode 4, CTC on OCR1A
@@ -50,10 +88,10 @@ int main(void)
     TIMSK1 |= (1 << OCIE1A);
     //Set interrupt on compare match
 
-    TCCR1B |= (1 << CS12) | (1 << CS10);
-    // set prescaler to 1024 and start the timer
-
-	
+    TCCR1B |= (1 << CS11)|(1 << CS10);
+    // set prescaler to 64 and start the timer
+//====================================================================
+	/*
 	Balken_x=35;
 	Balkenlaenge=15;
 	ball_y=30;
@@ -62,22 +100,36 @@ int main(void)
 	start=0;
 	ball_vert=DOWN;
 	ball_horiz=RIGHT;
-	
-	
-	sei();
+*/
 
 	glcd_init();
-	glcd_clear();
-	glcd_write();
+	//glcd_clear();
+	//glcd_write();
 	glcd_tiny_set_font(Font5x7 ,5,7,32,127);
-	glcd_clear_buffer();
 	
-	glcd_write();	
+		
+	//glcd_write();	
+	
+	while (1){
+	glcd_clear_buffer();
+	sei(); //enable global interrupt
+	
+	sprintf(buffer2,"%d",Milisec);
+	glcd_tiny_draw_string(30,1,buffer2);
+	
+	
+	sprintf(buffer,"%d",Sekunde);
+	glcd_tiny_draw_string(30,2,buffer);
+	
+	sprintf(buffer1,"%d",Minute);
+	glcd_tiny_draw_string(30,3,buffer1);
+	glcd_write();
+
 		
 		
-		while(1)
+	/*	while(1)
 		{
-			if(LINKS)
+			if(LINKS)				//balkenbewegung nach links
 			{
 				Balken_x=Balken_x--;
 				if(Balken_x < 1)
@@ -94,12 +146,12 @@ int main(void)
 				}
 			}
 			
-			if(ball_vert==DOWN)
+			if(ball_vert==DOWN) //Ball fällt
 			{
 				ball_y++;
 			}else ball_y--;
 			
-			/*if(start==0)
+			/ if(start==0)
 			{
 				ball_y++;
 				
@@ -107,7 +159,7 @@ int main(void)
 				{
 					start++;
 				}
-			}*/
+			} /
 			
 			
 			if((ball_y+2>=Balken_y)&&(ball_x>=Balken_x)&&(ball_x<=(Balken_x+Balkenlaenge))&&(ball_vert==DOWN)) //Abprall ab Balken
@@ -117,9 +169,18 @@ int main(void)
 					{
 						ball_vert=DOWN;
 					}
+			if((ball_x>=Balken_x)&&(ball_x<=(Balken_x+5))&&(ball_y+2<=Balken_y)&&(ball_vert==DOWN)) //Winkel nach links
+			{
+				ball_horiz=LEFT;
+				ball_vert=UP;
+			}
+			if (ball_horiz==LEFT)
+			{
+				ball_x--;
+			}else ball_x++;
 				
 				
-			glcd_clear();
+			glcd_clear_buffer();											//alles wird gezeichned
 			
 			glcd_draw_rect(Balken_x,Balken_y,Balkenlaenge,3,1);
 			
@@ -130,7 +191,8 @@ int main(void)
 			glcd_write();
 			
 			_delay_ms(10);
-		}
+		}*/
 				
-	
+		
+	}
 }

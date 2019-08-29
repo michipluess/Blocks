@@ -1,4 +1,4 @@
-/**
+ /**
    \file text_tiny.c
    \brief Functions relating to using tiny 5x7 text fonts.
    \author Andy Gock
