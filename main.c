@@ -17,56 +17,45 @@
 #define LEFT 0
 #define RIGHT 1
 
+
 unsigned char ms10=0;
 unsigned char ms100=0;
-int Sekunde=0;
-int Minute=0;
-int Milisec=0;
+unsigned char Bewegung=0;
 
 
 ISR (TIMER1_COMPA_vect)
 {
 	ms10++;
-	
-	if(ms10==10) //bei 100 ms
-	{	
-		ms100++;
-		Milisec++;
+	if(ms10==2)
+	{
+		Bewegung++;
 		ms10=0;
+		ms100++;
 	}
-	if(ms100==10) //Bei 1 sekunde
+	if(ms100==3)
 	{
-		Sekunde++;
-		Milisec=0;
+		Bewegung=0;
 		ms100=0;
-	}
-	if(Sekunde==60)
-	{
-		Sekunde=0;
-		Minute++;
 	}
 }
 
 int main(void)
-{/*
+{
 	char Balken_x;
 	char Balken_y;
 	char Balkenlaenge;
 	char ball_y;
-	char start;
 	char ball_x;
 	char ball_vert;
-	char ball_horiz;
-	char sektor_links;
-	char sektor_rechts;
-	*/
+	char ball_horiz=10;
 	
 	
 	
+/*	
 	char buffer[10];
 	char buffer1[10];
 	char buffer2[10];
-	
+	*/
 	
 	
 	
@@ -91,51 +80,52 @@ int main(void)
     TCCR1B |= (1 << CS11)|(1 << CS10);
     // set prescaler to 64 and start the timer
 //====================================================================
-	/*
+	
 	Balken_x=35;
 	Balkenlaenge=15;
-	ball_y=30;
-	ball_x=50;
+	ball_y=12;
+	ball_x=42;
 	Balken_y=42;
-	start=0;
 	ball_vert=DOWN;
-	ball_horiz=RIGHT;
-*/
+	ball_horiz=10;
+	
+	
+	glcd_fill_circle(ball_x,ball_y,2,1);
 
+	sei();
 	glcd_init();
-	//glcd_clear();
-	//glcd_write();
+	glcd_clear();
+	glcd_write();
 	glcd_tiny_set_font(Font5x7 ,5,7,32,127);
 	
-		
-	//glcd_write();	
 	
-	while (1){
-	glcd_clear_buffer();
-	sei(); //enable global interrupt
-	
-	sprintf(buffer2,"%d",Milisec);
-	glcd_tiny_draw_string(30,1,buffer2);
-	
-	
-	sprintf(buffer,"%d",Sekunde);
-	glcd_tiny_draw_string(30,2,buffer);
-	
-	sprintf(buffer1,"%d",Minute);
-	glcd_tiny_draw_string(30,3,buffer1);
-	glcd_write();
+										/*while (1){
+										glcd_clear_buffer();
+										sei(); //enable global interrupt
+										
+										sprintf(buffer2,"%d",Milisec);
+										glcd_tiny_draw_string(30,1,buffer2);
+										
+										
+										sprintf(buffer,"%d",Sekunde);
+										glcd_tiny_draw_string(30,2,buffer);
+										
+										sprintf(buffer1,"%d",Minute);
+										glcd_tiny_draw_string(30,3,buffer1);
+										glcd_write();*/
 
+											
 		
-		
-	/*	while(1)
+		while(1)
 		{
-			if(LINKS)				//balkenbewegung nach links
+//======================================================================			
+			if(LINKS)
 			{
 				Balken_x=Balken_x--;
 				if(Balken_x < 1)
 				{
 					Balken_x = 2;
-				}
+				}							//balkenbewegungen nach Links und rechts
 			}
 			if(RECHTS)
 			{
@@ -145,39 +135,66 @@ int main(void)
 					Balken_x = 67;
 				}
 			}
-			
-			if(ball_vert==DOWN) //Ball fällt
+
+//======================================================================
+
+			if((ball_vert==DOWN)&&(Bewegung==1)) 
 			{
-				ball_y++;
-			}else ball_y--;
-			
-			/ if(start==0)
+				ball_y++;			//Ball Bewegung nach Unten
+			}						
+
+//--------------------------------------------------------------
+
+			if((ball_vert==UP)&&(Bewegung==1)) 
 			{
-				ball_y++;
-				
-				if (ball_y+2>42)
-				{
-					start++;
-				}
-			} /
-			
-			
-			if((ball_y+2>=Balken_y)&&(ball_x>=Balken_x)&&(ball_x<=(Balken_x+Balkenlaenge))&&(ball_vert==DOWN)) //Abprall ab Balken
+				ball_y--;						//Ball Bewegung nach Oben
+			}
+
+//----------------------------------------------------------------------
+
+			if((ball_horiz==LEFT)&&(Bewegung==1)) 
+			{
+				ball_x--;						//Ball Bewegung nach Links
+			}
+
+//----------------------------------------------------------------------
+
+			if((ball_horiz==RIGHT)&&(Bewegung==1)) 
+			{
+				ball_x++;						//Ball Bewegung nach Rechts
+			}
+
+//--------------------------------------------------------			
+
+			if((ball_y+2>=Balken_y)&&(ball_x>=Balken_x+5)&&(ball_x<=(Balken_x+10))&&(ball_vert==DOWN)) //Abprall nach oben
 			{
 				ball_vert=UP;
 			}else if((ball_vert==UP)&&(ball_y<=2))  //Abprall an Oberem Rand
 					{
 						ball_vert=DOWN;
 					}
-			if((ball_x>=Balken_x)&&(ball_x<=(Balken_x+5))&&(ball_y+2<=Balken_y)&&(ball_vert==DOWN)) //Winkel nach links
+
+//--------------------------------------------------------			
+
+			if((ball_y+2>=Balken_y)&&(ball_x<=(Balken_x+5))&&(ball_x>=Balken_x)&&(ball_vert==DOWN)) //Winkel nach links
 			{
 				ball_horiz=LEFT;
 				ball_vert=UP;
-			}
-			if (ball_horiz==LEFT)
+			}else if(ball_x<=2)  //Abprall an linker Wand
+					{
+						ball_horiz=RIGHT;
+					}else 
+					
+			if((ball_x>=(Balken_x+10))&&(ball_x<=(Balken_x+15))&&(ball_y>=Balken_y)&&(ball_vert==DOWN)) //Winkel nach rechts
 			{
-				ball_x--;
-			}else ball_x++;
+				ball_horiz=RIGHT;
+				ball_vert=UP;
+			}else if(ball_x>=82)  //Abprall an Rechter Wand
+					{
+						ball_horiz=LEFT;
+					}
+//---------------------------------------------------------
+			
 				
 				
 			glcd_clear_buffer();											//alles wird gezeichned
@@ -190,9 +207,9 @@ int main(void)
 			
 			glcd_write();
 			
-			_delay_ms(10);
-		}*/
+			
+		}
 				
 		
-	}
+	
 }
