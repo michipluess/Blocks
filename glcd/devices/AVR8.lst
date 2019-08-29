@@ -108,15 +108,15 @@
  161               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 AVR8.c
-C:\Users\PLUM\AppData\Local\Temp/ccCdzR67.s:2      *ABS*:0000003f __SREG__
-C:\Users\PLUM\AppData\Local\Temp/ccCdzR67.s:3      *ABS*:0000003e __SP_H__
-C:\Users\PLUM\AppData\Local\Temp/ccCdzR67.s:4      *ABS*:0000003d __SP_L__
-C:\Users\PLUM\AppData\Local\Temp/ccCdzR67.s:5      *ABS*:00000034 __CCP__
-C:\Users\PLUM\AppData\Local\Temp/ccCdzR67.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\PLUM\AppData\Local\Temp/ccCdzR67.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\PLUM\AppData\Local\Temp/ccCdzR67.s:18     .text:00000000 glcd_spi_write
-C:\Users\PLUM\AppData\Local\Temp/ccCdzR67.s:42     .text:0000000e glcd_reset
-C:\Users\PLUM\AppData\Local\Temp/ccCdzR67.s:80     .text:00000020 glcd_init
+C:\Users\PLUM\AppData\Local\Temp/cc0N949M.s:2      *ABS*:0000003f __SREG__
+C:\Users\PLUM\AppData\Local\Temp/cc0N949M.s:3      *ABS*:0000003e __SP_H__
+C:\Users\PLUM\AppData\Local\Temp/cc0N949M.s:4      *ABS*:0000003d __SP_L__
+C:\Users\PLUM\AppData\Local\Temp/cc0N949M.s:5      *ABS*:00000034 __CCP__
+C:\Users\PLUM\AppData\Local\Temp/cc0N949M.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\PLUM\AppData\Local\Temp/cc0N949M.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\PLUM\AppData\Local\Temp/cc0N949M.s:18     .text:00000000 glcd_spi_write
+C:\Users\PLUM\AppData\Local\Temp/cc0N949M.s:42     .text:0000000e glcd_reset
+C:\Users\PLUM\AppData\Local\Temp/cc0N949M.s:80     .text:00000020 glcd_init
 
 UNDEFINED SYMBOLS
 glcd_PCD8544_init

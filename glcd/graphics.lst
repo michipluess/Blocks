@@ -1483,24 +1483,24 @@
  1626               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 graphics.c
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:2      *ABS*:0000003f __SREG__
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:3      *ABS*:0000003e __SP_H__
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:4      *ABS*:0000003d __SP_L__
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:5      *ABS*:00000034 __CCP__
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:18     .text:00000000 glcd_get_pixel
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:70     .text:00000046 glcd_draw_bitmap
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:94     .text:0000005e glcd_invert_pixel
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:153    .text:000000aa glcd_invert_area
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:231    .text:00000102 glcd_set_pixel
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:326    .text:00000180 glcd_fill_circle
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:586    .text:000002fe glcd_draw_circle
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:773    .text:0000041c glcd_draw_rect_thick
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:1009   .text:00000568 glcd_draw_rect
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:1159   .text:0000063a glcd_fill_rect
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:1297   .text:000006f0 glcd_draw_line
-C:\Users\PLUM\AppData\Local\Temp/ccNYysbr.s:1463   .text:000007c2 glcd_draw_rect_shadow
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:2      *ABS*:0000003f __SREG__
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:3      *ABS*:0000003e __SP_H__
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:4      *ABS*:0000003d __SP_L__
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:5      *ABS*:00000034 __CCP__
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:18     .text:00000000 glcd_get_pixel
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:70     .text:00000046 glcd_draw_bitmap
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:94     .text:0000005e glcd_invert_pixel
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:153    .text:000000aa glcd_invert_area
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:231    .text:00000102 glcd_set_pixel
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:326    .text:00000180 glcd_fill_circle
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:586    .text:000002fe glcd_draw_circle
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:773    .text:0000041c glcd_draw_rect_thick
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:1009   .text:00000568 glcd_draw_rect
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:1159   .text:0000063a glcd_fill_rect
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:1297   .text:000006f0 glcd_draw_line
+C:\Users\PLUM\AppData\Local\Temp/ccoiwv5h.s:1463   .text:000007c2 glcd_draw_rect_shadow
 
 UNDEFINED SYMBOLS
 glcd_buffer
