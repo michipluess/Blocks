@@ -16,7 +16,7 @@
 #define DOWN 0
 #define LEFT 0
 #define RIGHT 1
-#define delete goto
+#define raise goto
 
 
 //====================================================================
@@ -53,6 +53,8 @@ int main(void)
 
 //====================================================================Variabeln erstellen
 
+	unsigned char GAME_OVER;
+	unsigned char TEXT;
 
 	char Balken_x;
 	char Balken_y;
@@ -61,12 +63,21 @@ int main(void)
 	char ball_x;
 	char ball_vert;
 	char ball_horiz=10;
+	unsigned char color_ball=1;
+	unsigned char color_balken=1;
 	
 	unsigned char color1=1;
 	unsigned char color2=1;
 	unsigned char color3=1;
 	unsigned char color4=1;
 	unsigned char color5=1;
+	
+	unsigned char color6=1;
+	unsigned char color7=1;
+	unsigned char color8=1;
+	unsigned char color9=1;
+	unsigned char color10=1;
+	unsigned char color11=1;
 	
 	unsigned char xBOX1=4;
 	unsigned char xBOX2=20;
@@ -79,6 +90,20 @@ int main(void)
 	unsigned char yBOX3=2;
 	unsigned char yBOX4=2;
 	unsigned char yBOX5=2;
+	
+	unsigned char xBOX6=4;
+	unsigned char xBOX7=12;
+	unsigned char xBOX8=28;
+	unsigned char xBOX9=44;
+	unsigned char xBOX10=60;
+	unsigned char xBOX11=76;
+	
+	unsigned char yBOX6=7;
+	unsigned char yBOX7=7;
+	unsigned char yBOX8=7;
+	unsigned char yBOX9=7;
+	unsigned char yBOX10=7;
+	unsigned char yBOX11=7;
 
 
 
@@ -240,7 +265,7 @@ int main(void)
 				ball_vert=DOWN;
 			}
 		//------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX2+4)&&(ball_x>=xBOX2)&&(ball_x<=(xBOX2+12))&&(color1==1))) 
+			if((ball_y+2<=(yBOX2+4)&&(ball_x>=xBOX2)&&(ball_x<=(xBOX2+12))&&(color2==1))) 
 			{
 				color2=0;																	//Verschwinden von box2
 				ball_vert=DOWN;
@@ -251,7 +276,69 @@ int main(void)
 				color3=0;																	//Verschwinden von box3
 				ball_vert=DOWN;
 			}
-	 				
+	 	//------------------------------------------------------------------------------------
+			if((ball_y+2<=(yBOX4+4)&&(ball_x>=xBOX4)&&(ball_x<=(xBOX4+12))&&(color4==1))) 
+			{
+				color4=0;																	//Verschwinden von box4
+				ball_vert=DOWN;
+			}
+		//------------------------------------------------------------------------------------
+			if((ball_y+2<=(yBOX5+4)&&(ball_x>=xBOX5)&&(ball_x<=(xBOX5+12))&&(color5==1))) 
+			{
+				color5=0;																	//Verschwinden von box5
+				ball_vert=DOWN;
+			}
+		//------------------------------------------------------------------------------------
+			if((ball_y+2<=(yBOX6+4)&&(ball_x>=xBOX6)&&(ball_x<=(xBOX6+4))&&(color6==1))) 
+			{
+				color6=0;																	//Verschwinden von box6
+				ball_vert=DOWN;
+			}
+		//------------------------------------------------------------------------------------
+			if((ball_y+2<=(yBOX7+4)&&(ball_x>=xBOX7)&&(ball_x<=(xBOX7+12))&&(color7==1))) 
+			{
+				color7=0;																	//Verschwinden von box7
+				ball_vert=DOWN;
+			}
+		//------------------------------------------------------------------------------------
+			if((ball_y+2<=(yBOX8+4)&&(ball_x>=xBOX8)&&(ball_x<=(xBOX8+12))&&(color8==1))) 
+			{
+				color8=0;																	//Verschwinden von box8
+				ball_vert=DOWN;
+			}
+		//------------------------------------------------------------------------------------
+			if((ball_y+2<=(yBOX9+4)&&(ball_x>=xBOX9)&&(ball_x<=(xBOX9+12))&&(color9==1))) 
+			{
+				color9=0;																	//Verschwinden von box9
+				ball_vert=DOWN;
+			}
+		//------------------------------------------------------------------------------------
+			if((ball_y+2<=(yBOX10+4)&&(ball_x>=xBOX10)&&(ball_x<=(xBOX10+12))&&(color10==1))) 
+			{
+				color10=0;																	//Verschwinden von box10
+				ball_vert=DOWN;
+			}
+		//------------------------------------------------------------------------------------
+			if((ball_y+2<=(yBOX11+4)&&(ball_x>=xBOX11)&&(ball_x<=(xBOX11+4))&&(color11==1))) 
+			{
+				color11=0;																	//Verschwinden von box11
+				ball_vert=DOWN;
+			}
+		//------------------------------------------------------------------------------------
+	
+	
+	//_____________________________________________________________________________________________________________________________________
+														/*Game Over and winning system*/
+														
+			if((color1==0)&&(color2==0)&&(color3==0)&&(color4==0)&&(color5==0)&&(color6==0)&&(color7==0)&&(color8==0)&&(color9==0)&&(color10==0)&&(color11==0))
+			{
+				raise gameover;
+			}
+			if(ball_y+2>=48)
+			{
+			raise gameover;
+			}
+	
 	//-----------------------------------------------------------		
 		glcd_clear_buffer();
 		
@@ -259,13 +346,21 @@ int main(void)
 		glcd_fill_rect(xBOX2,yBOX2,12,4,color2);	
 		glcd_fill_rect(xBOX3,yBOX3,12,4,color3);	
 		glcd_fill_rect(xBOX4,yBOX4,12,4,color4);	
-		glcd_fill_rect(xBOX5,yBOX5,12,4,color5);	
+		glcd_fill_rect(xBOX5,yBOX5,12,4,color5);
+
+		glcd_fill_rect(xBOX6,yBOX6,4,4,color6);
+		glcd_fill_rect(xBOX7,yBOX7,12,4,color7);
+		glcd_fill_rect(xBOX8,yBOX8,12,4,color8);
+		glcd_fill_rect(xBOX9,yBOX9,12,4,color9);
+		glcd_fill_rect(xBOX10,yBOX10,12,4,color10);
+		glcd_fill_rect(xBOX11,yBOX11,4,4,color11);
+		
 		
 		
 			
-		glcd_draw_rect(Balken_x,Balken_y,Balkenlaenge,3,1);
+		glcd_fill_rect(Balken_x,Balken_y,Balkenlaenge,3,color_balken);
 			
-		glcd_fill_circle(ball_x,ball_y,2,1);					//alles wird gezeichned
+		glcd_fill_circle(ball_x,ball_y,2,color_ball);					//alles wird gezeichned
 			
 		glcd_draw_rect(00,00,84,47,1);
 			
@@ -278,7 +373,18 @@ int main(void)
 		
 		}//End while		
 		
-		
+		gameover:
+		{
+			glcd_clear_buffer();
+			color_ball=0;
+			color_balken=0;
+			sprintf(TEXT,"%d",GAME_OVER);
+			while(1)
+			{
+				glcd_tiny_draw_char(24, 20,"TEXT");
+				glcd_write();
+			}
+		}
 		
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| START MAIN ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 } //End main
