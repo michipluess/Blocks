@@ -12,11 +12,15 @@
 #define F_CPU 16000000UL  // 1 MHz
 #define	LINKS	!(PIND &(1<<PD6))
 #define RECHTS	!(PIND &(1<<PD5))
+#define MITTE	!(PIND &(1<<PD2))
 #define UP 1	
 #define DOWN 0
 #define LEFT 0
 #define RIGHT 1
-#define raise goto
+#define wait 0
+#define RUN 1
+#define GAMEOVER 2
+#define RELOAD 2
 
 
 //====================================================================
@@ -25,10 +29,14 @@
 unsigned char ms10=0; 			
 unsigned char ms100=0;			//variabeln für Timer erstellen
 unsigned char Bewegung=0;
+uint8_t entprell=3;
 
 ISR (TIMER1_COMPA_vect)
 {
 	ms10++;
+	if(entprell!=0)entprell--;
+		
+		
 	if(ms10==2)
 	{
 		Bewegung++;
@@ -104,6 +112,10 @@ int main(void)
 	unsigned char yBOX9=7;
 	unsigned char yBOX10=7;
 	unsigned char yBOX11=7;
+	
+	unsigned char Status=0;
+	
+	char blocks[5]={1,0,1,0,1};
 
 
 
@@ -163,20 +175,66 @@ int main(void)
 	
 		while(1)
 		{
-			
-		
-	
-		//----------------------------------------------------------------	
-			if(LINKS)
+			switch(Status)
 			{
+			case wait: 
+		
+				glcd_tiny_draw_string(7, 2, "Press yellow   to start");
+				glcd_draw_rect(00,00,84,47,1);
+				glcd_write();
+							color1=1;
+							color2=1;
+							color3=1;
+							color4=1;
+							color5=1;
+							color6=1;
+							color7=1;
+							color8=1;
+							color9=1;
+							color10=1;
+							color11=1;
+							color_ball=1;
+							color_balken=1;
+							
+							Balken_x=35;
+							Balkenlaenge=15;
+							ball_y=12;
+							ball_x=40;					//Balken und Ball Variabeln Deklarieren
+							Balken_y=42;
+													
+							ball_horiz=10;
+							
+							
+							
+							glcd_fill_circle(ball_x,ball_y,2,1); //Startposition Ball Zeichnen
+
+				if ((MITTE)&&(entprell==0))
+						{
+							entprell=RELOAD;
+							
+							Status=RUN;
+						}
+						break;
+
+			
+			case RUN:
+			
+			
+			glcd_write();
+		
+		//----------------------------------------------------------------	
+			if((LINKS)&&(entprell==0))
+			{
+				entprell=RELOAD;
 				Balken_x=Balken_x--;
 				if(Balken_x < 1)
 				{
 					Balken_x = 2;
 				}						//balkenbewegungen nach Links und rechts
 			}
-			if(RECHTS)
+			if((RECHTS)&&(entprell==0))
 			{
+				entprell=RELOAD;
 				Balken_x=Balken_x++;
 				if(Balken_x > 68)
 				{
@@ -255,110 +313,117 @@ int main(void)
 					}
 		//***********************************ENDE Bewegungselemente***********************************
 			
-//__________________________________________________________________________________________________________
+			
+//_____________________________________________________________________________________________________________________________________
+											
 											/*Blöcke generieren und dessen Verhalten*/
-			 
-		//------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX1+4)&&(ball_x>=xBOX1)&&(ball_x<=(xBOX1+12))&&(color1==1))) 
+//_____________________________________________________________________________________________________________________________________	 
+		
+		
+		//---------------------------------------------------------------------------------------
+			if((ball_y+2<=(yBOX1+4)&&(ball_x>=xBOX1)&&(ball_x<=(xBOX1+12))&&(blocks[LEVEL][0]))) 
 			{
-				color1=0;																	//Verschwinden von box1
+				blocks[0]=0;																	//Verschwinden von box1
 				ball_vert=DOWN;
 			}
-		//------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX2+4)&&(ball_x>=xBOX2)&&(ball_x<=(xBOX2+12))&&(color2==1))) 
+		//---------------------------------------------------------------------------------------
+			if((ball_y+2<=(yBOX2+4)&&(ball_x>=xBOX2)&&(ball_x<=(xBOX2+12))&&(blocks[1]))) 
 			{
-				color2=0;																	//Verschwinden von box2
+				blocks[1]=0;																	//Verschwinden von box2
 				ball_vert=DOWN;
 			}
-		//------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX3+4)&&(ball_x>=xBOX3)&&(ball_x<=(xBOX3+12))&&(color3==1))) 
+		//---------------------------------------------------------------------------------------
+			if((ball_y+2<=(yBOX3+4)&&(ball_x>=xBOX3)&&(ball_x<=(xBOX3+12))&&(blocks[2]==1))) 
 			{
-				color3=0;																	//Verschwinden von box3
+				blocks[2]=0;																	//Verschwinden von box3
 				ball_vert=DOWN;
 			}
-	 	//------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX4+4)&&(ball_x>=xBOX4)&&(ball_x<=(xBOX4+12))&&(color4==1))) 
+	 	//---------------------------------------------------------------------------------------
+			if((ball_y+2<=(yBOX4+4)&&(ball_x>=xBOX4)&&(ball_x<=(xBOX4+12))&&(blocks[3]==1))) 
 			{
-				color4=0;																	//Verschwinden von box4
+				blocks[3]=0;																	//Verschwinden von box4
 				ball_vert=DOWN;
 			}
-		//------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX5+4)&&(ball_x>=xBOX5)&&(ball_x<=(xBOX5+12))&&(color5==1))) 
+		//---------------------------------------------------------------------------------------
+			if((ball_y+2<=(yBOX5+4)&&(ball_x>=xBOX5)&&(ball_x<=(xBOX5+12))&&(blocks[4]==1))) 
 			{
-				color5=0;																	//Verschwinden von box5
+				blocks[4]=0;																	//Verschwinden von box5
 				ball_vert=DOWN;
 			}
-		//------------------------------------------------------------------------------------
+		//---------------------------------------------------------------------------------------
 			if((ball_y+2<=(yBOX6+4)&&(ball_x>=xBOX6)&&(ball_x<=(xBOX6+4))&&(color6==1))) 
 			{
 				color6=0;																	//Verschwinden von box6
 				ball_vert=DOWN;
 			}
-		//------------------------------------------------------------------------------------
+		//---------------------------------------------------------------------------------------
 			if((ball_y+2<=(yBOX7+4)&&(ball_x>=xBOX7)&&(ball_x<=(xBOX7+12))&&(color7==1))) 
 			{
 				color7=0;																	//Verschwinden von box7
 				ball_vert=DOWN;
 			}
-		//------------------------------------------------------------------------------------
+		//---------------------------------------------------------------------------------------
 			if((ball_y+2<=(yBOX8+4)&&(ball_x>=xBOX8)&&(ball_x<=(xBOX8+12))&&(color8==1))) 
 			{
 				color8=0;																	//Verschwinden von box8
 				ball_vert=DOWN;
 			}
-		//------------------------------------------------------------------------------------
+		//---------------------------------------------------------------------------------------
 			if((ball_y+2<=(yBOX9+4)&&(ball_x>=xBOX9)&&(ball_x<=(xBOX9+12))&&(color9==1))) 
 			{
 				color9=0;																	//Verschwinden von box9
 				ball_vert=DOWN;
 			}
-		//------------------------------------------------------------------------------------
+		//---------------------------------------------------------------------------------------
 			if((ball_y+2<=(yBOX10+4)&&(ball_x>=xBOX10)&&(ball_x<=(xBOX10+12))&&(color10==1))) 
 			{
 				color10=0;																	//Verschwinden von box10
 				ball_vert=DOWN;
 			}
-		//------------------------------------------------------------------------------------
+		//---------------------------------------------------------------------------------------
 			if((ball_y+2<=(yBOX11+4)&&(ball_x>=xBOX11)&&(ball_x<=(xBOX11+4))&&(color11==1))) 
 			{
 				color11=0;																	//Verschwinden von box11
 				ball_vert=DOWN;
 			}
-		//------------------------------------------------------------------------------------
+		//---------------------------------------------------------------------------------------
 	
 	
 	//_____________________________________________________________________________________________________________________________________
-														/*Game Over and winning system*/
 														
+														/*Game Over and winning system*/
+	//_____________________________________________________________________________________________________________________________________												
+			
+			
 			if((color1==0)&&(color2==0)&&(color3==0)&&(color4==0)&&(color5==0)&&(color6==0)&&(color7==0)&&(color8==0)&&(color9==0)&&(color10==0)&&(color11==0))
 			{
-				raise gameover;
+				Status=GAMEOVER;
 			}
 			if(ball_y+2>=48)
 			{
 				Leben--;
-				ball_y=24;
-				ball_x=40;
+				ball_y=24;															//wenn alle Blöcke getroffen sind oder wenn alle Leben aufgebraucht wurden dann --> Raise Gameover
+				ball_x=40 ;
 				ball_vert=DOWN;
 				ball_horiz=2;
 			}else if(Leben==0)
 					{
-						raise gameover;
+						Status=GAMEOVER;
 					}
 	
 	//-----------------------------------------------------------		
 		glcd_clear_buffer();
 		
-		glcd_fill_rect(xBOX1,yBOX1,12,4,color1);	
-		glcd_fill_rect(xBOX2,yBOX2,12,4,color2);	
-		glcd_fill_rect(xBOX3,yBOX3,12,4,color3);	
-		glcd_fill_rect(xBOX4,yBOX4,12,4,color4);	
-		glcd_fill_rect(xBOX5,yBOX5,12,4,color5);
+		glcd_fill_rect(xBOX1,yBOX1,12,4,blocks[0]);	
+		glcd_fill_rect(xBOX2,yBOX2,12,4,blocks[1]);	
+		glcd_fill_rect(xBOX3,yBOX3,12,4,blocks[2]);	
+		glcd_fill_rect(xBOX4,yBOX4,12,4,blocks[3]);	
+		glcd_fill_rect(xBOX5,yBOX5,12,4,blocks[4]);
 
 		glcd_fill_rect(xBOX6,yBOX6,4,4,color6);
 		glcd_fill_rect(xBOX7,yBOX7,12,4,color7);
 		glcd_fill_rect(xBOX8,yBOX8,12,4,color8);
-		glcd_fill_rect(xBOX9,yBOX9,12,4,color9);
+		glcd_fill_rect(xBOX9,yBOX9,12,4,color9);							//alles wird gezeichned
 		glcd_fill_rect(xBOX10,yBOX10,12,4,color10);
 		glcd_fill_rect(xBOX11,yBOX11,4,4,color11);
 		
@@ -367,31 +432,46 @@ int main(void)
 			
 		glcd_fill_rect(Balken_x,Balken_y,Balkenlaenge,3,color_balken);
 			
-		glcd_fill_circle(ball_x,ball_y,2,color_ball);					//alles wird gezeichned
+		glcd_fill_circle(ball_x,ball_y,2,color_ball);					
 			
 		glcd_draw_rect(00,00,84,47,1);
 			
 		glcd_write();
 	//-----------------------------------------------------------		
-	
-
-	
-////////////////////////////////////////////////////////////////// ENDE While //////////////////////////////////////////////////////////////////
 		
+			break;
+		
+	case GAMEOVER:
+			
+			Leben=3;
+			glcd_clear_buffer();			
+			
+				glcd_tiny_draw_string(16, 1, "GAME OVER");
+				glcd_tiny_draw_string(7, 3, "Press yellow  to restart");
+				glcd_write();
+				
+				if((MITTE)&&(entprell==0))
+				{
+					entprell=RELOAD;
+					Status=wait;
+				}
+		
+		break;
+	 }
+	 
+	 
+////////////////////////////////////////////////////////////////// ENDE While //////////////////////////////////////////////////////////////////
+	
+	
 		}//End while		
 		
-		gameover:
-		{
-			glcd_clear_buffer();
-			color_ball=0;
-			color_balken=0;
-			
-			while(1)
-			{
-				glcd_tiny_draw_string(16, 3, "GAME OVER");
-				glcd_write();
-			}
-		}
 		
-//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| START MAIN ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+//=============================================================== RAISE GAMEOVER ===============================================================
+		
+		
+		
+//==============================================================================================================================================
+
+
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ENDE MAIN |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 } //End main
