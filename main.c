@@ -53,8 +53,6 @@ int main(void)
 
 //====================================================================Variabeln erstellen
 
-	unsigned char GAME_OVER;
-	unsigned char TEXT;
 
 	char Balken_x;
 	char Balken_y;
@@ -65,6 +63,8 @@ int main(void)
 	char ball_horiz=10;
 	unsigned char color_ball=1;
 	unsigned char color_balken=1;
+	
+	unsigned char Leben=3;
 	
 	unsigned char color1=1;
 	unsigned char color2=1;
@@ -336,8 +336,15 @@ int main(void)
 			}
 			if(ball_y+2>=48)
 			{
-			raise gameover;
-			}
+				Leben--;
+				ball_y=24;
+				ball_x=40;
+				ball_vert=DOWN;
+				ball_horiz=2;
+			}else if(Leben==0)
+					{
+						raise gameover;
+					}
 	
 	//-----------------------------------------------------------		
 		glcd_clear_buffer();
@@ -378,10 +385,10 @@ int main(void)
 			glcd_clear_buffer();
 			color_ball=0;
 			color_balken=0;
-			sprintf(TEXT,"%d",GAME_OVER);
+			
 			while(1)
 			{
-				glcd_tiny_draw_char(24, 20,"TEXT");
+				glcd_tiny_draw_string(16, 3, "GAME OVER");
 				glcd_write();
 			}
 		}
