@@ -26,6 +26,7 @@
 #define BALLSPEED 5
 #define SCHILD 3
 #define breiter_balken 4
+
 	unsigned char ms10=0; 			
 	unsigned char ms100=0;			//variabeln für T imer erstellen
 	unsigned char Bewegung=1;
@@ -34,6 +35,7 @@
 	char timer_ballspeed=0;
 	char sec=0;
 	char zaehler=0;
+	char look=0;
 	
 	
 	char level=0;
@@ -41,67 +43,85 @@
 	char ball_horiz=10;
 	char ball_y;
 	char ball_x;
-	uint8_t blocks[4][11]={{1,1,1,1,1,1,1,1,5,1,1},{1,2,5,2,1,1,0,3,3,0,1},{5,2,4,2,5,1,1,4,4,1,1},{5,1,5,1,5,0,0,3,3,0,0}};  										//Level mit array
-	uint8_t blocks_koord[11][3]={{4,2,12},{20,2,12},{36,2,12},{52,2,12},{68,2,12},{4,7,4},{12,7,12},{28,7,12},{44,7,12},{60,7,12},{76,7,4}};						//koodinaten für Blöcke     (x Block, y Block, width Block)                     
+	char blocks[4][11]={{0,0,0,0,0,0,0,0,1,0,0},{1,2,5,2,1,1,0,3,3,0,1},{5,2,4,2,5,1,1,4,4,1,1},{5,1,5,1,5,0,0,3,3,0,0}};  										//Level mit array
+	char blocks_koord[11][3]={{4,2,12},{20,2,12},{36,2,12},{52,2,12},{68,2,12},{4,7,4},{12,7,12},{28,7,12},{44,7,12},{60,7,12},{76,7,4}};						//koodinaten für Blöcke     (x Block, y Block, width Block)                     
 	
 	
+char Zeichnen (char Nummer, char look)
+{
+	switch(look)
+	{
+		case (0):		//Block wird nicht angezeigt
+		break;
+		
+		case(1):
+		
+		glcd_draw_rect(blocks_koord[Nummer][0],blocks_koord[Nummer][1],blocks_koord[Nummer][2],4,1);
+		
+		break;
+		
+		
+		case abgenutzt:
+		
+			glcd_draw_rect(blocks_koord[Nummer][0],blocks_koord[Nummer][1],blocks_koord[Nummer][2],4,1);
+			glcd_draw_line(blocks_koord[Nummer][0],blocks_koord[Nummer][1],blocks_koord[Nummer][0]+blocks_koord[Nummer][2],blocks_koord[Nummer][1]+4,1);
+			glcd_draw_line(blocks_koord[Nummer][0]+blocks_koord[Nummer][2],blocks_koord[Nummer][1]+4,blocks_koord[Nummer][0],blocks_koord[Nummer][1],1);
+			
+		break;
+		
+		case SCHILD:
+		
+			glcd_fill_rect(blocks_koord[Nummer][0],blocks_koord[Nummer][1],blocks_koord[Nummer][2],4,1);	
+		break;
+		
+		case BALLSPEED:
+			
+			glcd_draw_rect(blocks_koord[Nummer][0],blocks_koord[Nummer][1],blocks_koord[Nummer][2],4,1);
+		break;
+			
+	}
+}
+
 
 char Blockfunktion(char level)
 {
-	char anz_blocks=0;
-	
+	char anz_blocks=11;
+	char anz_getroffen=0;
+	char anz_schild=0;
 	for(char x=0;x<12;x++)
 	{
 		if(blocks[level][x]!=GETROFFEN) //Wenn nicht 0 dann ist Block noch aktiv
 		{
 			if(blocks[level][x]!=SCHILD){
-				anz_blocks++;
-			}
+				anz_blocks--;
+			}else anz_schild++;
 			
 			
-			if((ball_y-2<=(blocks_koord[x][1]+4))&&(ball_x+2>=blocks_koord[x][0])&&(ball_x-2<=(blocks_koord[x][0]+blocks_koord[x][2])&&(blocks[level][x])&&(ball_vert==UP)))	//block getroffen
+			if((ball_y-2<=(blocks_koord[x][1]+4))&&(ball_x+2>=blocks_koord[x][0])&&(ball_x-2<=(blocks_koord[x][0]+blocks_koord[x][2])&&(blocks[level][x]!=0)&&(ball_vert==UP)))	//block getroffen
 			{
 				if(blocks[level][x]==BALLSPEED){
 					blocks[level][x]=GETROFFEN;
 					ballspeed=3;
 					timer_ballspeed=3;
 				}
-				if((blocks[level][x]==1)||(blocks[level][x]==2))
+				if(blocks[level][x]==1)
 				{
-					blocks[level][x]--;							//Farbe/funktion wird auf 1 oder 0 gesetzt
+					
+					blocks[level][x]--;				//Farbe/funktion wird auf 1 oder 0 gesetzt
+				}
 				
+				if(blocks[level][x]==2)
+				{	
+					blocks[level][x]--;
+					
 				}
-				if((blocks[level][x]!=1)&&(blocks[level][x]!=2))
-				{
-					blocks[level][x]=0;
-				}
+				
 					ball_vert=DOWN;
 			}	
 			
-			if((ball_y-1<=(blocks_koord[x][1]+2))&&(ball_x+2>=blocks_koord[x][0])&&(ball_x-2<=(blocks_koord[x][0]+blocks_koord[x][2])&&(blocks[level][x])&&(ball_vert==DOWN)))	//block getroffen
-			{
-				if(blocks[level][x]==BALLSPEED){
-					blocks[level][x]=GETROFFEN;
-					ballspeed=3;
-					timer_ballspeed=3;
-				}
-				if((blocks[level][x]==1)||(blocks[level][x]==2))
-				{
-					blocks[level][x]--;							//Farbe/funktion wird auf 1 oder 0 gesetzt
-				
-				}
-				if((blocks[level][x]!=1)&&(blocks[level][x]!=2))
-				{
-					blocks[level][x]=0;
-				}
-				
-					ball_vert=UP;
-			}			
-				
-			
-		}
+		}else anz_getroffen++;
 	}
-	return anz_blocks;
+	return anz_blocks-anz_schild-anz_getroffen;
 	
 }
 
@@ -198,10 +218,10 @@ int main(void)
 	
 	
 //====================================================================Ports für Taster als Input definieren	
-
+//Hintergrundbeleuchtung definieren
 	
-	DDRD|=(1<<PB2);						//Hintergrundbeleuchtung definieren
-	PORTB|=(1<<PB2);						//Hintergrundbeleuchtung ein
+	DDRB |= (1<<PB2);
+	PORTB |= (1<<PB2);						//Hintergrundbeleuchtung ein
 	
 	DDRD&=~((1<<PD5)|(1<<PD6)|(1<<PD2));	//Taster als Output definieren
 	PORTD|=((1<<PD5)|(1<<PD6)|(1<<PD2));	//Pullup aktivieren
@@ -280,6 +300,8 @@ int main(void)
 
 			
 			case RUN:
+			
+			glcd_write();
 			
 			if(Start==1)
 			{
@@ -391,88 +413,20 @@ int main(void)
 											
 											/*Blöcke generieren und dessen Verhalten*/
 //_____________________________________________________________________________________________________________________________________	 
-		Blockfunktion(level);
 		
-		/*---------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX1+4)&&(ball_x+2>=xBOX1)&&(ball_x+2<=(xBOX1+12))&&(blocks[level][0]==1))) 
-			{
-				blocks[level][0]=0;																	//Verschwinden von box1
-				ball_vert=DOWN;
-			}
-		//---------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX2+4)&&(ball_x+2>=xBOX2)&&(ball_x+2<=(xBOX2+12))&&(blocks[level][1]==1))) 
-			{
-				blocks[level][1]=0;																	//Verschwinden von box2
-				ball_vert=DOWN;
-			}
-		//---------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX3+4)&&(ball_x+2>=xBOX3)&&(ball_x+2<=(xBOX3+12))&&(blocks[level][2]==1))) 
-			{
-				blocks[level][2]=0;																	//Verschwinden von box3
-				ball_vert=DOWN;
-			}
-	 	//---------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX4+4)&&(ball_x+2>=xBOX4)&&(ball_x+2<=(xBOX4+12))&&(blocks[level][3]==1))) 
-			{
-				blocks[level][3]=0;																	//Verschwinden von box4
-				ball_vert=DOWN;
-			}
-		//---------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX5+4)&&(ball_x+2>=xBOX5)&&(ball_x+2<=(xBOX5+12))&&(blocks[level][4]==1))) 
-			{
-				blocks[level][4]=0;																	//Verschwinden von box5
-				ball_vert=DOWN;
-			}
-		//---------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX6+4)&&(ball_x+2>=xBOX6)&&(ball_x+2<=(xBOX6+4))&&(blocks[level][5]==1))) 
-			{
-				blocks[level][5]=0;																	//Verschwinden von box6
-				ball_vert=DOWN;
-			}
-		//---------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX7+4)&&(ball_x+2>=xBOX7)&&(ball_x+2<=(xBOX7+12))&&(blocks[level][6]==1))) 
-			{
-				blocks[level][6]=0;																	//Verschwinden von box7
-				ball_vert=DOWN;
-			}
-		//---------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX8+4)&&(ball_x+2>=xBOX8)&&(ball_x+2<=(xBOX8+12))&&(blocks[level][7]==1))) 
-			{
-				blocks[level][7]=0;																	//Verschwinden von box8
-				ball_vert=DOWN;
-			}
-		//---------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX9+4)&&(ball_x>=xBOX9)&&(ball_x<=(xBOX9+12))&&(blocks[level][8]==1))) 
-			{
-				blocks[level][8]=0;																	//Verschwinden von box9
-				ball_vert=DOWN;
-			}
-		//---------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX10+4)&&(ball_x>=xBOX10)&&(ball_x<=(xBOX10+12))&&(blocks[level][9]==1))) 
-			{
-				blocks[level][9]=0;																	//Verschwinden von box10
-				ball_vert=DOWN;
-			}
-		//---------------------------------------------------------------------------------------
-			if((ball_y+2<=(yBOX11+4)&&(ball_x>=xBOX11)&&(ball_x<=(xBOX11+4))&&(blocks[level][10]==1))) 
-			{
-				blocks[level][10]=0;																	//Verschwinden von box11
-				ball_vert=DOWN;
-			}
-		---------------------------------------------------------------------------------------*/
-	
-	
+		
+		if(Blockfunktion(level)==0){
+			level++;
+			Status=RUN;
+			glcd_clear_buffer();
+			Leben=3;
+			
+		}
 	//_____________________________________________________________________________________________________________________________________
 														
 														/*Game Over and winning system*/
 	//_____________________________________________________________________________________________________________________________________												
 			
-			//if((blocks[level][0]==0)&&(blocks[level][1]==0)&&(blocks[level][2]==0)&&(blocks[level][3]==0)&&(blocks[level][4]==0)&&(blocks[level][5]==0)&&(blocks[level][6]==0)&&(blocks[level][7]==0)&&(blocks[level][8]==0)&&(blocks[level][9]==0)&&(blocks[level][10]==0))
-			/*if(Blockfunktion(level)==0){
-				
-				level++;
-				Status=RUN;
-			}*/
 			
 			
 			
@@ -491,7 +445,12 @@ int main(void)
 	//-----------------------------------------------------------		
 		glcd_clear_buffer();
 		
-		glcd_fill_rect(blocks_koord[0][0],blocks_koord[0][1],blocks_koord[0][2],4,blocks[level][0]);	
+		for(char x=0;x<12;x++){
+			
+			Zeichnen(x,blocks[level][x]);
+		}
+		
+		/*glcd_fill_rect(blocks_koord[0][0],blocks_koord[0][1],blocks_koord[0][2],4,blocks[level][0]);	
 		glcd_fill_rect(blocks_koord[1][0],blocks_koord[1][1],blocks_koord[1][2],4,blocks[level][1]);	
 		glcd_fill_rect(blocks_koord[2][0],blocks_koord[2][1],blocks_koord[2][2],4,blocks[level][2]);	
 		glcd_fill_rect(blocks_koord[3][0],blocks_koord[3][1],blocks_koord[3][2],4,blocks[level][3]);	
@@ -502,7 +461,7 @@ int main(void)
 		glcd_fill_rect(blocks_koord[7][0],blocks_koord[7][1],blocks_koord[7][2],4,blocks[level][7]);
 		glcd_fill_rect(blocks_koord[8][0],blocks_koord[8][1],blocks_koord[8][2],4,blocks[level][8]);							//alles wird gezeichned
 		glcd_fill_rect(blocks_koord[9][0],blocks_koord[9][1],blocks_koord[9][2],4,blocks[level][9]);
-		glcd_fill_rect(blocks_koord[10][0],blocks_koord[10][1],blocks_koord[10][2],4,blocks[level][10]);
+		glcd_fill_rect(blocks_koord[10][0],blocks_koord[10][1],blocks_koord[10][2],4,blocks[level][10]);*/
 		
 		if(Leben==3){
 			glcd_set_pixel((Balken_x+17),Balken_y,1);
@@ -517,8 +476,9 @@ int main(void)
 			glcd_set_pixel((Balken_x+17),Balken_y,1);
 		}
 		
+		
 			sprintf(buffer,"%d",sec);
-			glcd_tiny_draw_string(0,0,buffer);
+			glcd_tiny_draw_string(Balken_x-12,5,buffer);
 			
 		glcd_fill_rect(Balken_x,Balken_y,Balkenlaenge,3,color_balken);
 			
@@ -534,8 +494,8 @@ int main(void)
 		case GAMEOVER:
 			
 			Leben=3;
-			glcd_clear_buffer();			
-			
+						
+				glcd_clear_buffer();
 				glcd_tiny_draw_string(16, 1, "GAME OVER");
 				glcd_tiny_draw_string(7, 3, "Press yellow  to restart");
 				glcd_write();
@@ -543,7 +503,10 @@ int main(void)
 				if((MITTE)&&(entprell==0))
 				{
 					entprell=RELOAD;
-					Status=wait;
+					Status=RUN;
+					sec=0;
+					level=0;
+					
 				}
 		
 		break;
