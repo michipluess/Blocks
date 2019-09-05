@@ -23,15 +23,25 @@
 #define RELOAD 2
 #define GETROFFEN 0
 #define abgenutzt 2
-#define ballspeed 5
+#define BALLSPEED 5
 #define SCHILD 3
 #define breiter_balken 4
+	unsigned char ms10=0; 			
+	unsigned char ms100=0;			//variabeln für T imer erstellen
+	unsigned char Bewegung=1;
+	volatile char ballspeed=6;
+	char entprell=3;
+	char timer_ballspeed=0;
+	char sec=0;
+	char zaehler=0;
+	
+	
 	char level=0;
 	char ball_vert;
 	char ball_horiz=10;
 	char ball_y;
 	char ball_x;
-	uint8_t blocks[4][11]={{1,1,1,1,1,1,1,1,1,1,1},{1,2,5,2,1,1,0,3,3,0,1},{5,2,4,2,5,1,1,4,4,1,1},{5,1,5,1,5,0,0,3,3,0,0}};  										//Level mit array
+	uint8_t blocks[4][11]={{1,1,1,1,1,1,1,1,5,1,1},{1,2,5,2,1,1,0,3,3,0,1},{5,2,4,2,5,1,1,4,4,1,1},{5,1,5,1,5,0,0,3,3,0,0}};  										//Level mit array
 	uint8_t blocks_koord[11][3]={{4,2,12},{20,2,12},{36,2,12},{52,2,12},{68,2,12},{4,7,4},{12,7,12},{28,7,12},{44,7,12},{60,7,12},{76,7,4}};						//koodinaten für Blöcke     (x Block, y Block, width Block)                     
 	
 	
@@ -42,15 +52,39 @@ char Blockfunktion(char level)
 	
 	for(char x=0;x<12;x++)
 	{
-		if(blocks[level][x]!=GETROFFEN)
+		if(blocks[level][x]!=GETROFFEN) //Wenn nicht 0 dann ist Block noch aktiv
 		{
 			if(blocks[level][x]!=SCHILD){
 				anz_blocks++;
 			}
 			
-			if((ball_y-2<=(blocks_koord[x][1]+4))&&(ball_x+2>=blocks_koord[x][0])&&(ball_x-2<=(blocks_koord[x][0]+blocks_koord[x][2])&&(blocks[level][x])))	//block getroffen
+			
+			if((ball_y-2<=(blocks_koord[x][1]+4))&&(ball_x+2>=blocks_koord[x][0])&&(ball_x-2<=(blocks_koord[x][0]+blocks_koord[x][2])&&(blocks[level][x])&&(ball_vert==UP)))	//block getroffen
 			{
+				if(blocks[level][x]==BALLSPEED){
+					blocks[level][x]=GETROFFEN;
+					ballspeed=3;
+					timer_ballspeed=3;
+				}
+				if((blocks[level][x]==1)||(blocks[level][x]==2))
+				{
+					blocks[level][x]--;							//Farbe/funktion wird auf 1 oder 0 gesetzt
 				
+				}
+				if((blocks[level][x]!=1)&&(blocks[level][x]!=2))
+				{
+					blocks[level][x]=0;
+				}
+					ball_vert=DOWN;
+			}	
+			
+			if((ball_y-1<=(blocks_koord[x][1]+2))&&(ball_x+2>=blocks_koord[x][0])&&(ball_x-2<=(blocks_koord[x][0]+blocks_koord[x][2])&&(blocks[level][x])&&(ball_vert==DOWN)))	//block getroffen
+			{
+				if(blocks[level][x]==BALLSPEED){
+					blocks[level][x]=GETROFFEN;
+					ballspeed=3;
+					timer_ballspeed=3;
+				}
 				if((blocks[level][x]==1)||(blocks[level][x]==2))
 				{
 					blocks[level][x]--;							//Farbe/funktion wird auf 1 oder 0 gesetzt
@@ -61,14 +95,10 @@ char Blockfunktion(char level)
 					blocks[level][x]=0;
 				}
 				
-				if(ball_vert==UP)
-				{
-					ball_vert=DOWN;
-				}
-					
-						
+					ball_vert=UP;
+			}			
 				
-			}
+			
 		}
 	}
 	return anz_blocks;
@@ -79,28 +109,37 @@ char Blockfunktion(char level)
 //====================================================================
 
 
-unsigned char ms10=0; 			
-unsigned char ms100=0;			//variabeln für T imer erstellen
-unsigned char Bewegung=0;
-char entprell=3;
+
 
 ISR (TIMER1_COMPA_vect)
 {
-	ms10++;
+	ms10++;							//Alle 10 Milisekunden
 	if(entprell!=0)entprell--;
 		
-		
-	if(ms10==2)
+		zaehler++;				//Timer, zeit bestimmen
+		if(zaehler==ballspeed){
+			Bewegung=1;
+			zaehler=0;
+		}	
+	if(ms10==10) //alle 100 Milisekunden
 	{
 		
 		ms10=0;
-		ms100++;				//Timer, zeit bestimmen
+		ms100++;
+				
 	}
-	if(ms100==3)
-	{
+	
+	
+	if(ms100==10){		//Alle Sekunden
+		sec++;
+		if(timer_ballspeed!=0){
+			timer_ballspeed--;
+		}else ballspeed=6;
 		ms100=0;
-		Bewegung=1;
 	}
+	
+	
+	
 }
 
 
@@ -434,8 +473,7 @@ int main(void)
 				level++;
 				Status=RUN;
 			}*/
-			//sprintf(buffer,"%d",Blockfunktion(level));
-			//glcd_tiny_draw_string(20,30,buffer);
+			
 			
 			
 			if(ball_y+2>=48)
@@ -479,7 +517,8 @@ int main(void)
 			glcd_set_pixel((Balken_x+17),Balken_y,1);
 		}
 		
-		
+			sprintf(buffer,"%d",sec);
+			glcd_tiny_draw_string(0,0,buffer);
 			
 		glcd_fill_rect(Balken_x,Balken_y,Balkenlaenge,3,color_balken);
 			

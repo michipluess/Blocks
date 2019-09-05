@@ -597,20 +597,20 @@
  700               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 text_tiny.c
-C:\Users\PLUM\AppData\Local\Temp/ccxRRkhA.s:2      *ABS*:0000003f __SREG__
-C:\Users\PLUM\AppData\Local\Temp/ccxRRkhA.s:3      *ABS*:0000003e __SP_H__
-C:\Users\PLUM\AppData\Local\Temp/ccxRRkhA.s:4      *ABS*:0000003d __SP_L__
-C:\Users\PLUM\AppData\Local\Temp/ccxRRkhA.s:5      *ABS*:00000034 __CCP__
-C:\Users\PLUM\AppData\Local\Temp/ccxRRkhA.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\PLUM\AppData\Local\Temp/ccxRRkhA.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\PLUM\AppData\Local\Temp/ccxRRkhA.s:18     .text:00000000 glcd_tiny_set_font
-C:\Users\PLUM\AppData\Local\Temp/ccxRRkhA.s:49     .text:00000022 glcd_tiny_draw_char_xy
-C:\Users\PLUM\AppData\Local\Temp/ccxRRkhA.s:208    .text:0000010e glcd_tiny_draw_char
-C:\Users\PLUM\AppData\Local\Temp/ccxRRkhA.s:364    .text:00000204 glcd_tiny_draw_string_P
-C:\Users\PLUM\AppData\Local\Temp/ccxRRkhA.s:454    .text:0000026c glcd_tiny_draw_string
-C:\Users\PLUM\AppData\Local\Temp/ccxRRkhA.s:536    .text:000002d4 glcd_tiny_invert_line
-C:\Users\PLUM\AppData\Local\Temp/ccxRRkhA.s:564    .text:000002ee glcd_tiny_draw_string_ammend_P
-C:\Users\PLUM\AppData\Local\Temp/ccxRRkhA.s:593    .text:0000030c glcd_tiny_draw_string_ammend
+C:\Users\PLUM\AppData\Local\Temp/ccrt7oRB.s:2      *ABS*:0000003f __SREG__
+C:\Users\PLUM\AppData\Local\Temp/ccrt7oRB.s:3      *ABS*:0000003e __SP_H__
+C:\Users\PLUM\AppData\Local\Temp/ccrt7oRB.s:4      *ABS*:0000003d __SP_L__
+C:\Users\PLUM\AppData\Local\Temp/ccrt7oRB.s:5      *ABS*:00000034 __CCP__
+C:\Users\PLUM\AppData\Local\Temp/ccrt7oRB.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\PLUM\AppData\Local\Temp/ccrt7oRB.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\PLUM\AppData\Local\Temp/ccrt7oRB.s:18     .text:00000000 glcd_tiny_set_font
+C:\Users\PLUM\AppData\Local\Temp/ccrt7oRB.s:49     .text:00000022 glcd_tiny_draw_char_xy
+C:\Users\PLUM\AppData\Local\Temp/ccrt7oRB.s:208    .text:0000010e glcd_tiny_draw_char
+C:\Users\PLUM\AppData\Local\Temp/ccrt7oRB.s:364    .text:00000204 glcd_tiny_draw_string_P
+C:\Users\PLUM\AppData\Local\Temp/ccrt7oRB.s:454    .text:0000026c glcd_tiny_draw_string
+C:\Users\PLUM\AppData\Local\Temp/ccrt7oRB.s:536    .text:000002d4 glcd_tiny_invert_line
+C:\Users\PLUM\AppData\Local\Temp/ccrt7oRB.s:564    .text:000002ee glcd_tiny_draw_string_ammend_P
+C:\Users\PLUM\AppData\Local\Temp/ccrt7oRB.s:593    .text:0000030c glcd_tiny_draw_string_ammend
 
 UNDEFINED SYMBOLS
 font_current
