@@ -25,7 +25,7 @@
 #define abgenutzt 2
 #define BALLSPEED 5
 #define SCHILD 3
-#define breiter_balken 4
+
 
 	unsigned char ms10=0; 			
 	unsigned char ms100=0;			//variabeln für T imer erstellen
@@ -36,14 +36,14 @@
 	char sec=0;
 	char zaehler=0;
 	char look=0;
-	
-	
+															//Verschidene Variabeln für Funktionen und Globale anwendungen
+	char remaining_blocks=0;
 	char level=0;
 	char ball_vert;
 	char ball_horiz=10;
 	char ball_y;
 	char ball_x;
-	char blocks[4][11]={{0,0,0,0,0,0,0,0,1,0,0},{1,2,5,2,1,1,0,3,3,0,1},{5,2,4,2,5,1,1,4,4,1,1},{5,1,5,1,5,0,0,3,3,0,0}};  										//Level mit array
+	char blocks[4][11]={{0,0,0,0,0,1,1,2,1,1,1},{1,2,5,2,1,1,0,1,1,0,1},{5,2,3,2,5,1,1,2,2,1,1},{5,1,5,1,5,0,0,3,3,0,0}};  										//Level mit array
 	char blocks_koord[11][3]={{4,2,12},{20,2,12},{36,2,12},{52,2,12},{68,2,12},{4,7,4},{12,7,12},{28,7,12},{44,7,12},{60,7,12},{76,7,4}};						//koodinaten für Blöcke     (x Block, y Block, width Block)                     
 	
 	
@@ -56,7 +56,7 @@ char Zeichnen (char Nummer, char look)
 		
 		case(1):
 		
-		glcd_draw_rect(blocks_koord[Nummer][0],blocks_koord[Nummer][1],blocks_koord[Nummer][2],4,1);
+		glcd_draw_rect(blocks_koord[Nummer][0],blocks_koord[Nummer][1],blocks_koord[Nummer][2],4,1);				//Normaler Block
 		
 		break;
 		
@@ -64,19 +64,19 @@ char Zeichnen (char Nummer, char look)
 		case abgenutzt:
 		
 			glcd_draw_rect(blocks_koord[Nummer][0],blocks_koord[Nummer][1],blocks_koord[Nummer][2],4,1);
-			glcd_draw_line(blocks_koord[Nummer][0],blocks_koord[Nummer][1],blocks_koord[Nummer][0]+blocks_koord[Nummer][2],blocks_koord[Nummer][1]+4,1);
-			glcd_draw_line(blocks_koord[Nummer][0]+blocks_koord[Nummer][2],blocks_koord[Nummer][1]+4,blocks_koord[Nummer][0],blocks_koord[Nummer][1],1);
+			glcd_draw_line(blocks_koord[Nummer][0],blocks_koord[Nummer][1],blocks_koord[Nummer][0]+blocks_koord[Nummer][2],blocks_koord[Nummer][1]+4,1);				//Blöcke mit Kreuz darin, müssen zweimal getroffen werden
+			glcd_draw_line(blocks_koord[Nummer][0]+blocks_koord[Nummer][2],blocks_koord[Nummer][1]+4,blocks_koord[Nummer][0],blocks_koord[Nummer][1],1);			
 			
 		break;
 		
 		case SCHILD:
 		
-			glcd_fill_rect(blocks_koord[Nummer][0],blocks_koord[Nummer][1],blocks_koord[Nummer][2],4,1);	
+			glcd_fill_rect(blocks_koord[Nummer][0],blocks_koord[Nummer][1],blocks_koord[Nummer][2],4,1);		//Kann nicht verschwinden und ist Komplett schwarz
 		break;
 		
 		case BALLSPEED:
 			
-			glcd_draw_rect(blocks_koord[Nummer][0],blocks_koord[Nummer][1],blocks_koord[Nummer][2],4,1);
+			glcd_draw_rect(blocks_koord[Nummer][0],blocks_koord[Nummer][1],blocks_koord[Nummer][2],4,1);			//Normales Block Verhalten
 		break;
 			
 	}
@@ -85,9 +85,11 @@ char Zeichnen (char Nummer, char look)
 
 char Blockfunktion(char level)
 {
-	char anz_blocks=11;
-	char anz_getroffen=0;
-	char anz_schild=0;
+	
+	uint8_t anz_blocks=11;
+	uint8_t anz_getroffen=0;
+	uint8_t anz_schild=0;
+	
 	for(char x=0;x<12;x++)
 	{
 		if(blocks[level][x]!=GETROFFEN) //Wenn nicht 0 dann ist Block noch aktiv
@@ -96,35 +98,34 @@ char Blockfunktion(char level)
 				anz_blocks--;
 			}else anz_schild++;
 			
-			
 			if((ball_y-2<=(blocks_koord[x][1]+4))&&(ball_x+2>=blocks_koord[x][0])&&(ball_x-2<=(blocks_koord[x][0]+blocks_koord[x][2])&&(blocks[level][x]!=0)&&(ball_vert==UP)))	//block getroffen
 			{
 				if(blocks[level][x]==BALLSPEED){
 					blocks[level][x]=GETROFFEN;
-					ballspeed=3;
+					ballspeed=3;							//Wenn ballspeed blöcke getroffen werden wird geschw. erhöht
 					timer_ballspeed=3;
 				}
 				if(blocks[level][x]==1)
 				{
-					
 					blocks[level][x]--;				//Farbe/funktion wird auf 1 oder 0 gesetzt
 				}
 				
 				if(blocks[level][x]==2)
 				{	
 					blocks[level][x]--;
-					
 				}
-				
 					ball_vert=DOWN;
+					anz_getroffen++;
 			}	
-			
-		}else anz_getroffen++;
+		}
 	}
-	return anz_blocks-anz_schild-anz_getroffen;
+	
+	remaining_blocks= anz_blocks-anz_getroffen-anz_schild;
+	
+	return  remaining_blocks;					//Rechnet aus wie viele Blöcke noch auf dem Feld sind
 	
 }
-
+	
 
 //====================================================================
 
@@ -183,37 +184,10 @@ int main(void)
 	
 	unsigned char Leben=3;
 	
-	/*
-	unsigned char xBOX1=4;
-	unsigned char xBOX2=20;
-	unsigned char xBOX3=36;
-	unsigned char xBOX4=52;
-	unsigned char xBOX5=68;
-	
-	unsigned char yBOX1=2;
-	unsigned char yBOX2=2;
-	unsigned char yBOX3=2;
-	unsigned char yBOX4=2;
-	unsigned char yBOX5=2;
-	
-	unsigned char xBOX6=4;
-	unsigned char xBOX7=12;
-	unsigned char xBOX8=28;
-	unsigned char xBOX9=44;
-	unsigned char xBOX10=60;
-	unsigned char xBOX11=76;
-	
-	unsigned char yBOX6=7;
-	unsigned char yBOX7=7;
-	unsigned char yBOX8=7;
-	unsigned char yBOX9=7;
-	unsigned char yBOX10=7;
-	unsigned char yBOX11=7;
-	*/
-	
 	unsigned char Status=0;
 	
 	char buffer[10];
+	char buffer1[10];
 	char Start=0;
 	
 	
@@ -274,6 +248,9 @@ int main(void)
 	
 		while(1)
 		{
+		
+		
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\Start switch/case////////////////////////////////////////////////////////////////
 			switch(Status)
 			{
 			case wait: 
@@ -292,7 +269,7 @@ int main(void)
 						{
 							entprell=RELOAD;
 							
-							Status=RUN;
+							Status=RUN;					//Wenn Startknopf gedrückt
 							Start=1;
 							ball_horiz=10;
 						}
@@ -301,12 +278,14 @@ int main(void)
 			
 			case RUN:
 			
-			glcd_write();
+		
+			
+			
 			
 			if(Start==1)
 			{
 				ball_vert=DOWN;
-				Start=0;
+				Start=0;									//Ball fällt von Mitte nach Unten zum Starten
 				ball_y=20;
 			}
 						
@@ -321,7 +300,7 @@ int main(void)
 				if(Balken_x < 1)
 				{
 					Balken_x = 2;
-				}						//balkenbewegungen nach Links und rechts
+				}										//balkenbewegungen nach Links und rechts
 			}
 			if((RECHTS)&&(entprell==0))
 			{
@@ -411,63 +390,51 @@ int main(void)
 			
 //_____________________________________________________________________________________________________________________________________
 											
-											/*Blöcke generieren und dessen Verhalten*/
+												/*Level aufstieg und Gamerover System*/
 //_____________________________________________________________________________________________________________________________________	 
 		
 		
-		if(Blockfunktion(level)==0){
-			level++;
-			Status=RUN;
+		if(Blockfunktion(level)==11){
+			level++;									//wenn alle Blöcke getroffen dann --> Level aufstieg
+			
 			glcd_clear_buffer();
 			Leben=3;
-			
-		}
-	//_____________________________________________________________________________________________________________________________________
-														
-														/*Game Over and winning system*/
-	//_____________________________________________________________________________________________________________________________________												
-			
-			
-			
-			
-			if(ball_y+2>=48)
-			{
-				Leben--;
-				ball_y=24;															//wenn alle Blöcke getroffen sind oder wenn alle Leben aufgebraucht wurden dann --> Raise Gameover
-				ball_x=40 ;
-				ball_vert=DOWN;
-				ball_horiz=2;
-			}else if(Leben==0)
-					{
-						Status=GAMEOVER;
-					}
-	
-	//-----------------------------------------------------------		
+			ball_x=40;
+			ball_y=24;
+			ball_vert=DOWN;
+			ball_horiz=2;
+			Balken_x=35;
+			Status=RUN;
+		}											
+	//----------------------------------------------------------------------------------------	
+		if(ball_y+2>=48)
+		{
+			Leben--;
+			ball_y=24;															//wenn alle Leben aufgebraucht wurden dann --> Gameover
+			ball_x=40 ;
+			ball_vert=DOWN;
+			ball_horiz=2;
+		}else if(Leben==0)
+				{
+					Status=GAMEOVER;
+				}
+	//______________________________________________________________________________________________________________________________________
+															/*Zeichnen*/
+	//______________________________________________________________________________________________________________________________________
+		
 		glcd_clear_buffer();
 		
 		for(char x=0;x<12;x++){
 			
-			Zeichnen(x,blocks[level][x]);
+			Zeichnen(x,blocks[level][x]); 			//Alles wird gezeichnet
 		}
 		
-		/*glcd_fill_rect(blocks_koord[0][0],blocks_koord[0][1],blocks_koord[0][2],4,blocks[level][0]);	
-		glcd_fill_rect(blocks_koord[1][0],blocks_koord[1][1],blocks_koord[1][2],4,blocks[level][1]);	
-		glcd_fill_rect(blocks_koord[2][0],blocks_koord[2][1],blocks_koord[2][2],4,blocks[level][2]);	
-		glcd_fill_rect(blocks_koord[3][0],blocks_koord[3][1],blocks_koord[3][2],4,blocks[level][3]);	
-		glcd_fill_rect(blocks_koord[4][0],blocks_koord[4][1],blocks_koord[4][2],4,blocks[level][4]);
-
-		glcd_fill_rect(blocks_koord[5][0],blocks_koord[5][1],blocks_koord[5][2],4,blocks[level][5]);
-		glcd_fill_rect(blocks_koord[6][0],blocks_koord[6][1],blocks_koord[6][2],4,blocks[level][6]);
-		glcd_fill_rect(blocks_koord[7][0],blocks_koord[7][1],blocks_koord[7][2],4,blocks[level][7]);
-		glcd_fill_rect(blocks_koord[8][0],blocks_koord[8][1],blocks_koord[8][2],4,blocks[level][8]);							//alles wird gezeichned
-		glcd_fill_rect(blocks_koord[9][0],blocks_koord[9][1],blocks_koord[9][2],4,blocks[level][9]);
-		glcd_fill_rect(blocks_koord[10][0],blocks_koord[10][1],blocks_koord[10][2],4,blocks[level][10]);*/
-		
+	//-------------------------------------------------------------------------------------	
 		if(Leben==3){
 			glcd_set_pixel((Balken_x+17),Balken_y,1);
 			glcd_set_pixel((Balken_x+19),Balken_y,1);
 			glcd_set_pixel((Balken_x+21),Balken_y,1);
-		}
+		}														//Lebensanzeige
 		if(Leben==2){
 			glcd_set_pixel((Balken_x+19),Balken_y,1);
 			glcd_set_pixel((Balken_x+17),Balken_y,1);
@@ -476,21 +443,27 @@ int main(void)
 			glcd_set_pixel((Balken_x+17),Balken_y,1);
 		}
 		
-		
+	//-------------------------------------------------------------------------------------
+	
 			sprintf(buffer,"%d",sec);
 			glcd_tiny_draw_string(Balken_x-12,5,buffer);
 			
-		glcd_fill_rect(Balken_x,Balken_y,Balkenlaenge,3,color_balken);
+			sprintf(buffer1,"%d",Blockfunktion(level));
+			glcd_tiny_draw_string(3,3,buffer1);
 			
+		glcd_fill_rect(Balken_x,Balken_y,Balkenlaenge,3,color_balken);
+																			//Balken und Ball sowie Zeit anzeigen
 		glcd_fill_circle(ball_x,ball_y,2,color_ball);					
 			
 		glcd_draw_rect(00,00,84,47,1);
 			
 		glcd_write();
-	//-----------------------------------------------------------		
+	//-------------------------------------------------------------------------------------	
 		
 			break;
-			
+//______________________________________________________________________________________________________________________________________________
+																/*Gameover*/
+//______________________________________________________________________________________________________________________________________________
 		case GAMEOVER:
 			
 			Leben=3;
@@ -510,22 +483,18 @@ int main(void)
 				}
 		
 		break;
-			}
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\END switch/case/////////////////////////////////////////////////////////////////
+		
+			}//End Switch, Case
 	 
 		
 ////////////////////////////////////////////////////////////////// ENDE While //////////////////////////////////////////////////////////////////
 	
 	
 		}//End while		
-		
-		
-//=============================================================== RAISE GAMEOVER ===============================================================
-		
-		
-		
-//==============================================================================================================================================
 
 
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| ENDE MAIN |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
 
 } //End main
